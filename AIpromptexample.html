@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>AI 提示詞生成器</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px;}
+    label { display: inline-block; width: 80px;}
+    input { margin: 5px 0; padding: 5px;}
+    textarea{width: 800px; height: 120px; margin-top: 10px;}
+    .team-section { margin-bottom: 20px}
+  </style>
+</head>
+<body>
+  <h1>AI 提示詞生成器</h1>
+  
+  <div class="team-section";>
+    <h3 style= "color:rgb(229, 98, 98)";>Red Alliance</h3>
+    <label for="teamA1">成員1：</label>
+    <input type="text" id="teamA1" placeholder="輸入編號"><br>
+    <label for="teamA2">成員2：</label>
+    <input type="text" id="teamA2" placeholder="輸入編號"><br>
+    <label for="teamA3">成員3：</label>
+    <input type="text" id="teamA3" placeholder="輸入編號"><br>
+  </div>
+  
+  <div class="team-section">
+    <h3 style="color:rgb(74, 74, 219)">Blue Alliance</h3>
+    <label for="teamB1">成員1：</label>
+    <input type="text" id="teamB1" placeholder="輸入編號"><br>
+    <label for="teamB2">成員2：</label>
+    <input type="text" id="teamB2" placeholder="輸入編號"><br>
+    <label for="teamB3">成員3：</label>
+    <input type="text" id="teamB3" placeholder="輸入編號"><br>
+  </div>
+  
+  <button onclick="generatePrompt()">生成 AI 提示詞</button>
+  <button onclick="copyText()">複製提示詞</button>
+  
+  <textarea id="result" readonly placeholder="生成的提示詞會顯示在這裡"></textarea>
+  
+  <script>
+    function generatePrompt() {
+      // 取得團隊 A 與團隊 B 各成員的輸入值
+      const teamA1 = document.getElementById("teamA1").value.trim()
+      const teamA2 = document.getElementById("teamA2").value.trim()
+      const teamA3 = document.getElementById("teamA3").value.trim()
+      const teamB1 = document.getElementById("teamB1").value.trim()
+      const teamB2 = document.getElementById("teamB2").value.trim()
+      const teamB3 = document.getElementById("teamB3").value.trim()
+      
+      // 建立提示詞內容
+      const promptText = `
+請根據以下數據對即將到來的比賽進行全面分析，並將每個團隊的資料以列點方式分別提供：
+
+【團隊資訊】
+- 團隊A：${teamA1}、${teamA2}、${teamA3}
+- 團隊B：${teamB1}、${teamB2}、${teamB3}
+
+【請分析內容】
+針對每個團隊，請分別以以下列點形式提供資料：
+- 各聯隊整體策略：描述該團隊可能採用的戰術、各隊伍在聯隊中擔任的角色、優勢與劣勢。
+- 成功率分析：根據數據分析各個團隊在比賽中各個動作(像是CORALLv1)的成功率。
+- 成員角色：分別說明各隊伍在團隊中的定位與作用，以及其對團隊表現的影響。
+- 勝率預估：根據現有數據，預估該團隊的勝率。
+`
+//將生成的提示詞顯示於 textarea 中
+      
+      document.getElementById("result").value = promptText.trim()
+    }
+    function copyText() {
+      // 取得 textarea 物件
+      const textarea = document.getElementById("result");
+      // 使用 Clipboard API 複製內容
+      navigator.clipboard.writeText(textarea.value)
+        .then(() => {
+          alert("提示詞已複製到剪貼簿！");
+        })
+        .catch((err) => {
+          alert("複製失敗，請手動複製！");
+          console.error("Error copying text: ", err);
+        });
+    }
+  </script>
+</body>
+</html>
